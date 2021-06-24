@@ -2,9 +2,8 @@ import React from 'react';
 
 import Filter from '../components/Filter';
 
-const FriendsContainer = (props) => {
-  const {friends} = props
-  return <Filter friends = {friends}/>;
+const FriendsContainer = ({go}) => {
+  return <Filter go={go}/>;
 };
 
 export default FriendsContainer;
