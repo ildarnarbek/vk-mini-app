@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-
-import { Header, Group, Cell, Div, Avatar, FormItem, SliderSwitch, FormLayoutGroup, Input} from '@vkontakte/vkui';
-
-import { useActions } from './FriendsSlice';
+import { Cell, Avatar} from '@vkontakte/vkui';
 
 const FriendsList = (props) => {
 	const {friends} = props
@@ -29,7 +25,7 @@ return (
 	};
 
 FriendsList.propTypes = {
-	fetchedFriends: PropTypes.arrayOf(PropTypes.shape({
+	friends: PropTypes.arrayOf(PropTypes.shape({
 		photo_100: PropTypes.string,
 		first_name: PropTypes.string,
 		last_name: PropTypes.string,

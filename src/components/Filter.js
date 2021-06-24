@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { Header, Group, Cell, Div, Avatar, FormItem, SliderSwitch, FormLayoutGroup, Input, IconButton} from '@vkontakte/vkui';
+import { Header, Group, Div, FormItem, SliderSwitch, FormLayoutGroup, Input, IconButton} from '@vkontakte/vkui';
 import { Icon24ArrowDownOutline, Icon24ArrowUpOutline } from '@vkontakte/icons';
 import { useActions } from './FriendsSlice';
 
@@ -10,8 +9,7 @@ import FriendsList from './FriendsList'
 
 import './Filter.css';
 
-const Filter = (props) => {
-	const {friends} = props
+const Filter = () => {
 	const {getToken} = useActions();
   const { getFiltredFriends } = useActions();
 
@@ -22,13 +20,6 @@ const Filter = (props) => {
 
 	const [sortingBy, setSortingBy] = useState('');
   const [sortingType, setSortingType] = useState(true);
-	// const [searchedItem, setSearchedItem] = useState('');
-
-	// const onChange = (e) =>{
-  //   const { value } = e.currentTarget;
-  //   setSearchedItem(value);
-	// 	console.log(searchedItem);
-  // }
 
   const onTextChange = (e) => {
     let selectedFriends = FriendSlice.filter( function(friend) {
@@ -64,16 +55,12 @@ const Filter = (props) => {
 
 	const onByChange = (e) => {
 		setSortingBy(e)
-    // console.log(sortingType);
-    
     getFiltredFriends(sorting(sortingBy))
 	}
 
   const onTypeChange = (e) => {
     setSortingType(sortingType => !sortingType)
     getFiltredFriends(sorting(sortingBy))
-    console.log(sortingType);
-    
   }
 
   useEffect(() => {
@@ -117,13 +104,5 @@ return (
 		</Group>
 		)
 	};
-
-Filter.propTypes = {
-	fetchedFriends: PropTypes.arrayOf(PropTypes.shape({
-		photo_100: PropTypes.string,
-		first_name: PropTypes.string,
-		last_name: PropTypes.string,
-	}),)
-};
 
 export default Filter;

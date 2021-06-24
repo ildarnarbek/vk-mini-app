@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { Panel, PanelHeader, Group, Div, CellButton } from '@vkontakte/vkui';
 
 import FriendsContainer from '../containers/FriendsContainer'
-
 import { useActions } from '../components/FriendsSlice';
 
 const Home = ({ id,fetchedUser }) => {
