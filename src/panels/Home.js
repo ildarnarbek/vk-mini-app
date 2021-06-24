@@ -1,30 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Panel, PanelHeader, Header, Button, Group, Cell, Div, Avatar } from '@vkontakte/vkui';
+import { Panel, PanelHeader, Group, Div, CellButton } from '@vkontakte/vkui';
 
-const Home = ({ id, go, fetchedUser }) => (
+import FriendsContainer from '../containers/FriendsContainer'
+import { useActions } from '../components/FriendsSlice';
+
+const Home = ({ id,fetchedUser, go }) => {
+
+	const { getFriends } = useActions();
+
+	return(
 	<Panel id={id}>
-		<PanelHeader>Example</PanelHeader>
+		<PanelHeader>Friends list</PanelHeader>
 		{fetchedUser &&
-		<Group header={<Header mode="secondary">User Data Fetched with VK Bridge</Header>}>
-			<Cell
-				before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-				description={fetchedUser.city && fetchedUser.city.title ? fetchedUser.city.title : ''}
-			>
-				{`${fetchedUser.first_name} ${fetchedUser.last_name}`}
-			</Cell>
+		<Group>
+			<Div>{`Hello ,${fetchedUser.first_name}!!`}</Div>
 		</Group>}
-
-		<Group header={<Header mode="secondary">Navigation Example</Header>}>
-			<Div>
-				<Button stretched size="l" mode="secondary" onClick={go} data-to="persik">
-					Show me the Persik, please
-				</Button>
-			</Div>
-		</Group>
-	</Panel>
-);
+		<CellButton onClick={getFriends} >Get friends list</CellButton>
+		<FriendsContainer go={go}/>
+	</Panel>)
+};
 
 Home.propTypes = {
 	id: PropTypes.string.isRequired,
