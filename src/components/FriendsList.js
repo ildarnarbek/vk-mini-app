@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-import { Header, Group, Cell, Div, Avatar} from '@vkontakte/vkui';
+import { Header, Group, Cell, Div, Avatar, FormItem, SliderSwitch, FormLayoutGroup, Input} from '@vkontakte/vkui';
 
-const FriendsList = ({ fetchedFriends }) => (
-		<Group header={<Header mode="secondary">Friends list</Header>}>
-			<Div>
-			{fetchedFriends? 
-			fetchedFriends.map((friend, i) => {
+import { useActions } from './FriendsSlice';
+
+const FriendsList = (props) => {
+	const {friends} = props
+
+return (
+		<>
+			{friends ? 
+			friends.map((friend, i) => {
 				return (
 					<div key={i}>
 						<Cell
@@ -19,9 +24,9 @@ const FriendsList = ({ fetchedFriends }) => (
 				);
 				})
 			 : null}
-			</Div>
-		</Group>
-);
+		</>
+		)
+	};
 
 FriendsList.propTypes = {
 	fetchedFriends: PropTypes.arrayOf(PropTypes.shape({

@@ -1,11 +1,20 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { Panel, PanelHeader, Group, Div, CellButton } from '@vkontakte/vkui';
 
-import FriendsList from '../components/FriendsList';
+import FriendsContainer from '../containers/FriendsContainer'
 
-const Home = ({ id,fetchedUser, getFriends, fetchedFriends }) => (
+import { useActions } from '../components/FriendsSlice';
+
+const Home = ({ id,fetchedUser }) => {
+
+	const { getFriends } = useActions();
+
+	const FriendsSlice = useSelector((state) => state.FriendsSlice.data);
+
+	return(
 	<Panel id={id}>
 		<PanelHeader>Friends list</PanelHeader>
 		{fetchedUser &&
@@ -13,9 +22,9 @@ const Home = ({ id,fetchedUser, getFriends, fetchedFriends }) => (
 			<Div>{`Hello ,${fetchedUser.first_name}!!`}</Div>
 		</Group>}
 		<CellButton onClick={getFriends} >Get friends list</CellButton>
-		<FriendsList fetchedFriends = {fetchedFriends} />
-	</Panel>
-);
+		<FriendsContainer friends = {FriendsSlice} />
+	</Panel>)
+};
 
 Home.propTypes = {
 	id: PropTypes.string.isRequired,

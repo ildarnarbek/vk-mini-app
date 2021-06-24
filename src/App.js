@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { Provider } from 'react-redux';
 import bridge from '@vkontakte/vk-bridge';
 import { View, ScreenSpinner, AdaptivityProvider, AppRoot } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
+import store from './store';
+import { useActions } from './components/FriendsSlice';
+import { useSelector } from 'react-redux';
 import Home from './panels/Home';
+
+
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
@@ -11,6 +17,10 @@ const App = () => {
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 	const [fetchedFriends, setFriends] = useState(null);
 	const [token, setToken] = useState('');
+
+
+	const { getUser } = useActions();
+
 
 	useEffect(() => {
 		bridge.subscribe(({ detail: { type, data }}) => {
@@ -20,38 +30,33 @@ const App = () => {
 				document.body.attributes.setNamedItem(schemeAttribute);
 			}
 		});
-		async function fetchData() {
-			const user = await bridge.send('VKWebAppGetUserInfo');
-			setUser(user);
-			setPopout(null);
-		}
-		fetchData();
 
-		async function getToken() {
-			const tokenObj = await bridge.send("VKWebAppGetAuthToken", {"app_id": 7882655, "scope": "friends,status"});
-			setToken(tokenObj.access_token)
-		}
-		getToken()
+
+		getUser().then(
+			setPopout(null)
+		)
+
+		// async function fetchData() {
+		// 	const user = await bridge.send('VKWebAppGetUserInfo');
+		// 	setUser(user);
+		// 	console.log(fetchedUser);
+
+		// }
+		// fetchData();
 	}, []);
 
 	const go = e => {
 		setActivePanel(e.currentTarget.dataset.to);
 	};
 
-
-	async function getAllFriends(){
-		const users = await bridge.send("VKWebAppCallAPIMethod", {"method": "friends.get", "params": {"fields": "photo_100","v":"5.131", "access_token":token}});;
-		setFriends(users.response.items)
-		console.log('getting friends')
-		await console.log(users.response.items)
-	}
+	const userSlice = useSelector((state) => state.FriendsSlice.user);
 
 	return (
 		<AdaptivityProvider>
 			<AppRoot>
-				<View activePanel={activePanel} popout={popout}>
-					<Home id='home' fetchedUser={fetchedUser} go={go} fetchedFriends = {fetchedFriends} token = {token} getFriends={getAllFriends}/>
-				</View>
+					<View activePanel={activePanel} popout={popout}>
+						<Home id='home' fetchedUser={userSlice} go={go} fetchedFriends = {fetchedFriends}/>
+					</View>
 			</AppRoot>
 		</AdaptivityProvider>
 	);
