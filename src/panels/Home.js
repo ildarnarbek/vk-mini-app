@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { Panel, PanelHeader, Group, Div, CellButton } from '@vkontakte/vkui';
@@ -7,11 +6,9 @@ import { Panel, PanelHeader, Group, Div, CellButton } from '@vkontakte/vkui';
 import FriendsContainer from '../containers/FriendsContainer'
 import { useActions } from '../components/FriendsSlice';
 
-const Home = ({ id,fetchedUser }) => {
+const Home = ({ id,fetchedUser, go }) => {
 
 	const { getFriends } = useActions();
-
-	const FriendsSlice = useSelector((state) => state.FriendsSlice.data);
 
 	return(
 	<Panel id={id}>
@@ -21,7 +18,7 @@ const Home = ({ id,fetchedUser }) => {
 			<Div>{`Hello ,${fetchedUser.first_name}!!`}</Div>
 		</Group>}
 		<CellButton onClick={getFriends} >Get friends list</CellButton>
-		<FriendsContainer friends = {FriendsSlice} />
+		<FriendsContainer go={go}/>
 	</Panel>)
 };
 

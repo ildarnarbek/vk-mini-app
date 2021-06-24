@@ -7,11 +7,12 @@ import store from './store';
 import { useActions } from './components/FriendsSlice';
 import { useSelector } from 'react-redux';
 import Home from './panels/Home';
-
+import FriendInfo from	'./panels/FriendInfo'
 
 
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
+	const [selectedFriend, setSelectedFriend] = useState('')
 
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 
@@ -27,7 +28,6 @@ const App = () => {
 			}
 		});
 
-
 		getUser().then(
 			setPopout(null)
 		)
@@ -35,6 +35,7 @@ const App = () => {
 
 	const go = e => {
 		setActivePanel(e.currentTarget.dataset.to);
+		setSelectedFriend(e.currentTarget.dataset.id);
 	};
 
 	const userSlice = useSelector((state) => state.FriendsSlice.user);
@@ -44,6 +45,7 @@ const App = () => {
 			<AppRoot>
 					<View activePanel={activePanel} popout={popout}>
 						<Home id='home' fetchedUser={userSlice} go={go} />
+						<FriendInfo id='friend'  go={go} friendId={selectedFriend}/>
 					</View>
 			</AppRoot>
 		</AdaptivityProvider>

@@ -9,7 +9,7 @@ import FriendsList from './FriendsList'
 
 import './Filter.css';
 
-const Filter = () => {
+const Filter = ({go}) => {
 	const {getToken} = useActions();
   const { getFiltredFriends } = useActions();
 
@@ -98,7 +98,7 @@ return (
             <Input name="search" onChange={onTextChange}/>
             </FormItem>
             </FormLayoutGroup>
-        <FriendsList friends={FilterSlice} />
+        <FriendsList friends={FilterSlice} go={go}/>
         </Div>
 			 : null}
 		</Group>
