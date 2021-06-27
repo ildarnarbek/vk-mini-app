@@ -28,8 +28,6 @@ const App = () => {
 			}
 		});
 
-		bridge.send("VKWebAppGetAuthToken", {"app_id": 7882655, "scope": "friends,status"});
-
 		getUser().then(
 			setPopout(null)
 		)
